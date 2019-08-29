@@ -11,12 +11,15 @@ class List extends React.Component {
   addItem(){
     // debugger;
     console.log(this.state);
-    this.state.list.push(this.state.word);
+    this.state.list.push({
+        task:this.state.word,
+            date: moment().format('DD MMM YYYY, h:mm a')
+        });
+    console.log(this.state.list);
     let updatedList = {
         word: "",
         list: this.state.list
     }
-    //this.setState(this.state.list);
     this.setState(updatedList);
     console.log(this.state);
   }
@@ -40,10 +43,10 @@ class List extends React.Component {
   render() {
       // render the list with a map() here
       let list = this.state.list;
-      let itemElements = list.map((task, index) => {
-                console.log(task);
+      let itemElements = list.map((item, index) => {
+                console.log("item" + item.task);
                 return (
-                    <li>{`${task}`} <button onClick={(event)=>{this.deleteItem(event, index)}}>Delete</button></li>);
+                    <li>{`${item.task}, created at ${item.date}`} <button onClick={(event)=>{this.deleteItem(event, index)}}>Delete</button></li>);
             });
 
       console.log("rendering");
