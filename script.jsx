@@ -9,12 +9,19 @@ class List extends React.Component {
   }
 
   addItem(){
-    debugger;
+    // debugger;
+    console.log(this.state);
+    this.state.list.push(this.state.word);
+    this.setState(this.state.list);
+    console.log(this.state.list);
   }
 
   changeHandler(){
-    debugger;
+    // debugger;
+    this.setState({word:event.target.value});
+    console.log(this.state.word);
   }
+
 
   render() {
       // render the list with a map() here
@@ -22,7 +29,7 @@ class List extends React.Component {
       console.log("rendering");
       return (
         <div className="list">
-          <input onChange={()=>{this.changeHandler()}} value={this.state.word}/>
+          <input onChange={(event)=>{this.changeHandler(event)}} />
           <button onClick={()=>{this.addItem()}}>add item</button>
         </div>
       );
@@ -33,4 +40,3 @@ ReactDOM.render(
     <List/>,
     document.getElementById('root')
 );
-
