@@ -10,18 +10,22 @@ class List extends React.Component {
 
   addItem(){
     // debugger;
-    console.log(this.state);
-    this.state.list.push({
-        task:this.state.word,
+
+    if(this.state.word.length >= 1 && this.state.word.length <= 200){
+        this.state.list.push({
+            task:this.state.word,
             date: moment().format('DD MMM YYYY, h:mm a')
         });
-    console.log(this.state.list);
-    let updatedList = {
-        word: "",
-        list: this.state.list
+        console.log(this.state.list);
+        let updatedList = {
+            word: "",
+            list: this.state.list
+        }
+        this.setState(updatedList);
+        console.log(this.state);
+    } else {
+        alert("Please have an input that has more than 1 or less than 200 characters");
     }
-    this.setState(updatedList);
-    console.log(this.state);
   }
 
   changeHandler(){
