@@ -12,8 +12,13 @@ class List extends React.Component {
     // debugger;
     console.log(this.state);
     this.state.list.push(this.state.word);
-    this.setState(this.state.list);
-    console.log(this.state.list);
+    let updatedList = {
+        word: "",
+        list: this.state.list
+    }
+    //this.setState(this.state.list);
+    this.setState(updatedList);
+    console.log(this.state);
   }
 
   changeHandler(){
@@ -22,19 +27,29 @@ class List extends React.Component {
     console.log(this.state.word);
   }
 
+  deleteItem(event, index){
+    let newArray = this.state.list;
+    console.log(newArray);
+    console.log(index);
+    newArray.splice(index, 1);
+    this.setState({list:newArray});
+    console.log(this.state.list);
+  }
+
 
   render() {
       // render the list with a map() here
       let list = this.state.list;
-      let itemElements = list.map((task) => {
+      let itemElements = list.map((task, index) => {
                 console.log(task);
-                return <li>{`${task}`}</li>
+                return (
+                    <li>{`${task}`} <button onClick={(event)=>{this.deleteItem(event, index)}}>Delete</button></li>);
             });
 
       console.log("rendering");
       return (
         <div className="list">
-          <input onChange={(event)=>{this.changeHandler(event)}} />
+          <input onChange={(event)=>{this.changeHandler(event)}} value={this.state.word} />
           <button onClick={()=>{this.addItem()}}>add item</button>
           <ul>
             {itemElements}
