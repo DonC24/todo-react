@@ -25,12 +25,20 @@ class List extends React.Component {
 
   render() {
       // render the list with a map() here
+      let list = this.state.list;
+      let itemElements = list.map((task) => {
+                console.log(task);
+                return <li>{`${task}`}</li>
+            });
 
       console.log("rendering");
       return (
         <div className="list">
           <input onChange={(event)=>{this.changeHandler(event)}} />
           <button onClick={()=>{this.addItem()}}>add item</button>
+          <ul>
+            {itemElements}
+          </ul>
         </div>
       );
   }
