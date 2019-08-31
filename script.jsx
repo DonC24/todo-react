@@ -1,3 +1,19 @@
+class MyForm extends React.Component {
+  constructor() {
+    super();
+
+  }
+  render() {
+    return(
+      <div>
+        <input onChange={this.props.changeHandler} value={this.props.word} />
+        <button onClick={this.props.addItem}>Add Item</button>
+      </div>
+    );
+  }
+}
+
+
 class List extends React.Component {
   constructor(){
     super()
@@ -6,6 +22,8 @@ class List extends React.Component {
       word:"",
       list : []
     }
+    this.addItem = this.addItem.bind(this);
+    this.changeHandler = this.changeHandler.bind(this);
   }
 
   addItem(){
@@ -14,7 +32,7 @@ class List extends React.Component {
     if(this.state.word.length >= 1 && this.state.word.length <= 200){
         this.state.list.push({
             task:this.state.word,
-            date: moment().format('DD MMM YYYY, h:mm a')
+            createdate: moment().format('DD MMM YYYY, h:mm a')
         });
         console.log(this.state.list);
         let updatedList = {
@@ -28,7 +46,7 @@ class List extends React.Component {
     }
   }
 
-  changeHandler(){
+  changeHandler(event){
     // debugger;
     this.setState({word:event.target.value});
     console.log(this.state.word);
@@ -46,18 +64,19 @@ class List extends React.Component {
 
   render() {
       // render the list with a map() here
+      let word = this.state.word;
       let list = this.state.list;
       let itemElements = list.map((item, index) => {
                 console.log("item" + item.task);
                 return (
-                    <li>{`${item.task}, created at ${item.date}`} <button onClick={(event)=>{this.deleteItem(event, index)}}>Delete</button></li>);
+                    <li>{`${item.task}, created at ${item.createdate}`} <button onClick={(event)=>{this.deleteItem(event, index)}}>Delete</button></li>);
             });
 
       console.log("rendering");
       return (
         <div className="list">
-          <input onChange={(event)=>{this.changeHandler(event)}} value={this.state.word} />
-          <button onClick={()=>{this.addItem()}}>add item</button>
+          <MyForm changeHandler = {this.changeHandler} addItem = {this.addItem} word = {word}></MyForm>
+
           <ul>
             {itemElements}
           </ul>
