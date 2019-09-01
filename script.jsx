@@ -1,20 +1,63 @@
 class MyForm extends React.Component {
-  constructor() {
-    super();
+    constructor() {
+        super();
 
-  }
-  render() {
-    return(
-      <div>
-        <input onChange={this.props.changeHandler} value={this.props.word} />
-        <button onClick={this.props.addItem}>Add Item</button>
-      </div>
-    );
-  }
+    }
+    render() {
+        return(
+          <div>
+            <input onChange={this.props.changeHandler} value={this.props.word} />
+            <button onClick={this.props.addItem}>Add Item</button>
+          </div>
+        );
+    }
 }
 
+class ToDoItem extends React.Component {
+    constructor() {
+        super();
+    }
 
-class List extends React.Component {
+    render() {
+        console.log("in ToDoItem");
+        let index=this.props.index;
+        let item=this.props.item;
+        // console.log("index: " + index);
+        // console.log(item);
+        return(
+            <div>
+                {item.task}, created at {item.createdate}
+            </div>
+        );
+    }
+}
+
+class ItemList extends React.Component {
+    constructor() {
+        super();
+    }
+
+    render() {
+        let listItems = this.props.list.map((item, index) => {
+            return (
+                    <ToDoItem key={index} item={item} index={index} deleteItem={this.props.deleteItem}>
+                    </ToDoItem>
+                )
+        });
+        return(
+            <div className="list-pending">
+                <h3>Pending Tasks</h3>
+                <div>
+                    <ul>
+                        {listItems}
+                    </ul>
+                </div>
+            </div>
+        );
+    }
+}
+
+class ToDoApp extends React.Component {
   constructor(){
     super()
 
@@ -24,6 +67,7 @@ class List extends React.Component {
     }
     this.addItem = this.addItem.bind(this);
     this.changeHandler = this.changeHandler.bind(this);
+    this.deleteItem = this.deleteItem.bind(this);
   }
 
   addItem(){
@@ -63,29 +107,21 @@ class List extends React.Component {
 
 
   render() {
-      // render the list with a map() here
       let word = this.state.word;
       let list = this.state.list;
-      let itemElements = list.map((item, index) => {
-                console.log("item" + item.task);
-                return (
-                    <li>{`${item.task}, created at ${item.createdate}`} <button onClick={(event)=>{this.deleteItem(event, index)}}>Delete</button></li>);
-            });
 
       console.log("rendering");
       return (
         <div className="list">
           <MyForm changeHandler = {this.changeHandler} addItem = {this.addItem} word = {word}></MyForm>
+          <ItemList list = {list} deleteItem = {this.deleteItem}></ItemList>
 
-          <ul>
-            {itemElements}
-          </ul>
         </div>
       );
   }
 }
 
 ReactDOM.render(
-    <List/>,
+    <ToDoApp/>,
     document.getElementById('root')
 );
