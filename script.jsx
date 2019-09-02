@@ -26,7 +26,7 @@ class ToDoItem extends React.Component {
         // console.log(item);
         return(
             <div>
-                {item.task}, created at {item.createdate}
+                {item.task}, created at {item.createdate} <button onClick={(e)=>this.props.deleteItem(e, index)}>Delete Item</button>
             </div>
         );
     }
